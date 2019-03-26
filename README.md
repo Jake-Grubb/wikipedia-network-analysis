@@ -8,6 +8,7 @@ Python Script for gathering all wikipedia articles starting with the letter 'A',
 #File Structure:
 - master.py
     - Controls all other scripts
+
 - retriever.py
     - Selects an article to start from
     - If article has been seen,
