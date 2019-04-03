@@ -16,9 +16,26 @@ def resume():
     manager = mp.Manager()
     outset = manager.list()
 
-    qfile = open("queue.txt", '+a')
+    qfile = open("queue.txt")
+    sfile = open("set.txt")
+
+    for line in qfile:
+        inQueue.put(line)
+    
+    for line in sfile:
+        outset.append(line)
 
     return inQueue, outset
+
+def dump(q, s):
+    qfile = open("queue.txt", "a+")
+    sfile = open("set.txt", "a+")
+
+    while(not q.empty()):
+        qfile.write(q.get() + '\n')
+
+    for x in s:
+        sfile.write(x + '\n')
 
 if(__name__ == '__main__'):
     inQueue = mp.Queue()
@@ -63,5 +80,6 @@ if(__name__ == '__main__'):
         ret.join()
         par.join()
     except:
-       print('An exception occured')
+        print('An exception occured')
+        dump(inQueue, outset)    
     
