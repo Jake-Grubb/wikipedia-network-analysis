@@ -11,31 +11,13 @@ def fetchRand(oset):
 
         return first
 
-def resume():
-    inQueue = mp.Queue()
-    manager = mp.Manager()
-    outset = manager.list()
-
-    qfile = open("queue.txt")
-    sfile = open("set.txt")
-
-    for line in qfile:
-        inQueue.put(line)
-    
-    for line in sfile:
-        outset.append(line)
-
-    return inQueue, outset
-
-def dump(q, s):
-    qfile = open("queue.txt", "a+")
-    sfile = open("set.txt", "a+")
+def dump(q):
+    qfile = open("queue.txt", "w")
 
     while(not q.empty()):
         qfile.write(q.get() + '\n')
 
-    for x in s:
-        sfile.write(x + '\n')
+    qfile.close()
 
 if(__name__ == '__main__'):
     inQueue = mp.Queue()
@@ -59,7 +41,17 @@ if(__name__ == '__main__'):
             inQueue.put(first)
             outset.append(first)
         else:
-            inQueue, outset = resume()
+            qfile = open("queue.txt")
+            sfile = open("set.txt")
+
+            for line in qfile:
+                inQueue.put(line.rstrip())
+
+            for line in sfile:
+                outset.append(line.rstrip())
+
+            qfile.close()
+            sfile.close()
 
         ret.start()
         par.start()
@@ -81,5 +73,5 @@ if(__name__ == '__main__'):
         par.join()
     except:
         print('An exception occured')
-        dump(inQueue, outset)    
+        dump(inQueue)    
     

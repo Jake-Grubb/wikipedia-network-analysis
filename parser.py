@@ -14,25 +14,31 @@ def init(iq, ql, oset, sl, rtp):
 
         wri.start()
         info = rtp.recv()
+        sfile = open("set.txt","a+")
         while(info != 'KILL'):
-                sl.acquire()
-                a = False
-                edgeList = set()
-                for x in info.links:
-                        if(x[0] != 'a' and x[0] != 'A' and a == True):
-                                break
-                        elif (x[0] == 'a' or x[0] == 'A'):
-                                a = True
-                                edge = createEdge(info.title,x)
-                                edgeList.add(edge)
-                                ptw_par.send(edge)
-                                if(x not in oset):
-                                        ql.acquire()
-                                        iq.put(x)
-                                        oset.append(x)
-                                        ql.release()
-                sl.release()
-                info = rtp.recv()
+                try:
+                        sl.acquire()
+                        a = False
+                        edgeList = set()
+                        for x in info.links:
+                                if(x[0] != 'a' and x[0] != 'A' and a == True):
+                                        break
+                                elif (x[0] == 'a' or x[0] == 'A'):
+                                        a = True
+                                        edge = createEdge(info.title,x)
+                                        edgeList.add(edge)
+                                        ptw_par.send(edge)
+                                        if(x not in oset):
+                                                ql.acquire()
+                                                iq.put(x)
+                                                oset.append(x)
+                                                sfile.write(x + '\n')
+                                                ql.release()
+                        sl.release()
+                        info = rtp.recv()
+                except:
+                        sfile.close()
+                        info = 'KILL'
 
         ptw_par.send('KILL')
         wri.join()
