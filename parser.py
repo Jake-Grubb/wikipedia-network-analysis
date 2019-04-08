@@ -4,7 +4,7 @@ import multiprocessing as mp
 from multiprocessing import Pipe
 
 def createEdge(s,t):
-        return '\'' + s + '\'' + ',' + '\'' + t + '\''
+        return '\"' + s + '\"' + ',' + '\"' + t + '\"'
 
 def init(iq, ql, oset, sl, rtp):
         print("parser begin")
