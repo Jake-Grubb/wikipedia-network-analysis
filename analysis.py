@@ -10,7 +10,7 @@ with open('../../Documents/edges.csv', 'r') as file:
 	edgeList = list(reader)
 	print("EdgeList Loaded in " + str(time.time() - start_time) + " seconds")
 #Load the python list of edges into a networkx graph
-graphyboi = networkx.Graph()
+graphyboi = networkx.DiGraph()
 print("Graphy Boi Made in " + str(time.time() - start_time) + " seconds")
 #graphyboi.add_edges_from(edgeList)
 for edge in edgeList:

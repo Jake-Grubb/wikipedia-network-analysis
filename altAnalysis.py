@@ -2,7 +2,7 @@ import networkx as nx
 import csv
 import time
 
-graphyboi = nx.Graph()
+graphyboi = nx.DiGraph()
 start_time = time.time()
 
 with open('../../Documents/edges.csv', 'r') as file:
