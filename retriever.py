@@ -24,7 +24,7 @@ def init(iq, ql, oset, sl, rtp, err):
                                         p.links = wiki.page(p.title).links
                                         rtp.send(p)
                                 except:
-                                        print("gotcha bitch")
+                                        print("Bad Page Ignored")
                                         pass
                                 ql.acquire()
                         ql.release()
